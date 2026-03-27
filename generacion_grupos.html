@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupos · Comunidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://c.webfontfree.com/c.js?f=Neocat-Regular" type="text/javascript"></script>
+<style>
+@font-face {
+  font-family: 'Neocat';
+  src: url('https://db.onlinewebfonts.com/t/bb55d205859cc448085d847cdb8ed04a.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/bb55d205859cc448085d847cdb8ed04a.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/bb55d205859cc448085d847cdb8ed04a.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+
+/* ─── THEME ──────────────────────────────────────────────────── */
+:root { --tt: background .25s,color .25s,border-color .25s,box-shadow .25s; }
+
+[data-theme="light"] {
+  --bg:#F7F3EC; --bg2:#EEE8DC; --bg3:#E4DCCC;
+  --surface:#FFFFFF; --surface2:#FAF8F4;
+  --ink:#1A1714; --ink2:#5C5650; --ink3:#9C9690;
+  --gold:#B5851A; --gold-bg:#FDF3DC; --gold-bdr:rgba(181,133,26,.25);
+  --green:#1F6B47; --green-bg:#D4EFE2;
+  --red:#B83232; --red-bg:#FADADD;
+  --blue:#1D52C4; --purple:#7C22C2;
+  --shadow-sm:0 1px 4px rgba(26,23,20,.07),0 1px 2px rgba(26,23,20,.05);
+  --shadow:0 2px 14px rgba(26,23,20,.09),0 1px 4px rgba(26,23,20,.06);
+  --shadow-lg:0 8px 40px rgba(26,23,20,.13),0 2px 8px rgba(26,23,20,.08);
+  --border:rgba(26,23,20,.10); --border2:rgba(26,23,20,.06);
+  --modal-bg:rgba(26,23,20,.5);
+}
+[data-theme="dark"] {
+  --bg:#131110; --bg2:#1C1916; --bg3:#242018;
+  --surface:#1E1B17; --surface2:#262219;
+  --ink:#F5F0E8; --ink2:#A09880; --ink3:#5C5448;
+  --gold:#D4A03A; --gold-bg:rgba(212,160,58,.12); --gold-bdr:rgba(212,160,58,.25);
+  --green:#3DAA72; --green-bg:rgba(61,170,114,.12);
+  --red:#E05555; --red-bg:rgba(224,85,85,.12);
+  --blue:#5A8EF0; --purple:#A966E8;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.3);
+  --shadow:0 2px 14px rgba(0,0,0,.35);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.5);
+  --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.05);
+  --modal-bg:rgba(0,0,0,.65);
+}
+
+/* ─── RESET ──────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--bg); color:var(--ink);
+  min-height:100vh; -webkit-font-smoothing:antialiased;
+  transition:var(--tt);
+}
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 15%,rgba(181,133,26,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 70% at 90% 85%,rgba(31,107,71,.06) 0%,transparent 50%);
+  transition:var(--tt);
+}
+
+.page{position:relative;z-index:1;}
+.wrap{max-width:1300px;margin:0 auto;padding:0 24px;}
+
+/* ─── TOPBAR ─────────────────────────────────────────────────── */
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:16px 0 0;}
+.icon-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:7px 14px;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;font-size:.78rem;font-weight:500;
+  color:var(--ink2);box-shadow:var(--shadow-sm);transition:all .18s;
+}
+.icon-btn:hover{color:var(--ink);border-color:var(--ink3);}
+.icon-btn svg{width:14px;height:14px;flex-shrink:0;}
+
+/* ─── HEADER ─────────────────────────────────────────────────── */
+.site-header{padding:28px 0 0;text-align:center;}
+.header-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold-bg);border:1px solid var(--gold-bdr);
+  border-radius:100px;padding:5px 16px;
+  font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+}
+.header-badge svg{width:14px;height:14px;flex-shrink:0;}
+
+h1{
+  font-family:'Neocat','Neocat-Regular','Cormorant Garamond',serif;
+  font-size:clamp(3rem,8vw,6rem);font-weight:normal;
+  line-height:.95;letter-spacing:.01em;color:var(--ink);margin-bottom:14px;
+  transition:color .25s;
+}
+h1 em{font-style:italic;color:var(--gold);}
+
+.header-sub{
+  color:var(--ink2);font-size:.95rem;max-width:400px;
+  margin:0 auto 36px;line-height:1.65;transition:color .25s;
+}
+
+/* ─── STATS ──────────────────────────────────────────────────── */
+.stats-strip{
+  display:flex;justify-content:center;gap:0;margin-bottom:32px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;width:fit-content;margin-left:auto;margin-right:auto;
+  box-shadow:var(--shadow-sm);overflow:hidden;transition:var(--tt);
+}
+.stat-item{
+  display:flex;align-items:center;gap:8px;padding:9px 18px;
+  font-size:.8rem;color:var(--ink2);
+  border-right:1px solid var(--border2);transition:color .25s;
+}
+.stat-item:last-child{border-right:none;}
+.stat-item strong{font-size:.92rem;font-weight:600;color:var(--ink);}
+.stat-icon{color:var(--gold);display:flex;align-items:center;}
+.stat-icon svg{width:15px;height:15px;}
+
+/* ─── LEGEND ─────────────────────────────────────────────────── */
+.legend{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:16px;margin-bottom:28px;font-size:.75rem;color:var(--ink2);
+}
+.legend-item{display:flex;align-items:center;gap:6px;}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+/* ─── CONTROLS ───────────────────────────────────────────────── */
+.controls{
+  display:flex;justify-content:center;align-items:center;
+  gap:10px;margin-bottom:44px;flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:11px 20px;border-radius:100px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:.86rem;font-weight:600;
+  cursor:pointer;border:none;outline:none;
+  transition:all .18s;white-space:nowrap;
+}
+.btn svg{width:14px;height:14px;flex-shrink:0;}
+.btn-regen{background:var(--ink);color:var(--bg);box-shadow:0 3px 12px rgba(26,23,20,.20);}
+.btn-regen:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,23,20,.25);}
+.btn-regen:active{transform:translateY(0);}
+.btn-undo{background:var(--surface);color:var(--ink);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);}
+.btn-undo:hover{transform:translateY(-1px);border-color:var(--ink3);box-shadow:var(--shadow);}
+.btn-shuffle{background:var(--gold-bg);color:var(--gold);border:1.5px solid var(--gold-bdr);}
+.btn-shuffle:hover{transform:translateY(-1px);filter:brightness(.95);}
+.btn-manage{background:var(--surface2);color:var(--ink2);border:1.5px solid var(--border);}
+.btn-manage:hover{transform:translateY(-1px);color:var(--ink);border-color:var(--ink3);}
+
+/* ─── GRID ───────────────────────────────────────────────────── */
+.groups-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:16px;padding-bottom:72px;
+}
+
+/* ─── CARD ───────────────────────────────────────────────────── */
+.group-card{
+  background:var(--surface);border-radius:18px;
+  border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden;
+  transition:border-color .18s,box-shadow .18s,transform .18s,background .25s;
+  animation:cardIn .38s cubic-bezier(.34,1.4,.64,1) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.group-card.drag-over{border-color:var(--gold);box-shadow:0 0 0 3px rgba(181,133,26,.15),var(--shadow-lg);transform:scale(1.012);}
+.group-card.warn-card{border-color:rgba(184,50,50,.4);}
+.card-strip{height:3px;width:100%;}
+.group-card:nth-child(6n+1) .card-strip{background:linear-gradient(90deg,#B5851A,#E8C060);}
+.group-card:nth-child(6n+2) .card-strip{background:linear-gradient(90deg,#1F6B47,#3DB876);}
+.group-card:nth-child(6n+3) .card-strip{background:linear-gradient(90deg,#1D52C4,#5A8EF0);}
+.group-card:nth-child(6n+4) .card-strip{background:linear-gradient(90deg,#7C22C2,#B066F0);}
+.group-card:nth-child(6n+5) .card-strip{background:linear-gradient(90deg,#B83232,#E07070);}
+.group-card:nth-child(6n+0) .card-strip{background:linear-gradient(90deg,#C06020,#E89050);}
+
+.card-head{padding:14px 16px 10px;border-bottom:1px solid var(--border2);transition:border-color .25s;}
+.card-head-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-title{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Neocat','Neocat-Regular','Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:normal;color:var(--ink);transition:color .25s;
+}
+.card-num{
+  width:24px;height:24px;border-radius:6px;
+  background:var(--bg2);color:var(--ink2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;
+  font-family:'Instrument Sans',sans-serif;transition:background .25s,color .25s;
+}
+.card-pill{font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:100px;border:1px solid transparent;transition:all .18s;}
+.card-pill.ok{background:var(--green-bg);color:var(--green);}
+.card-pill.warn{background:var(--red-bg);color:var(--red);}
+.card-pill.empty{background:var(--bg2);color:var(--ink3);}
+
+/* ─── RESPONSIBLE ────────────────────────────────────────────── */
+.responsible-row{display:flex;align-items:center;gap:6px;}
+.resp-label{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--ink3);white-space:nowrap;flex-shrink:0;}
+.resp-label svg{width:12px;height:12px;}
+.resp-display{display:flex;align-items:center;gap:6px;flex:1;}
+.resp-name{
+  font-size:.78rem;font-weight:600;color:var(--gold);
+  background:var(--gold-bg);border:1px solid var(--gold-bdr);
+  border-radius:100px;padding:2px 10px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;
+  cursor:pointer;transition:filter .15s;
+}
+.resp-name:hover{filter:brightness(.9);}
+.resp-edit-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface2);
+  cursor:pointer;color:var(--ink3);transition:all .15s;flex-shrink:0;
+}
+.resp-edit-btn:hover{color:var(--gold);border-color:var(--gold-bdr);}
+.resp-edit-btn svg{width:11px;height:11px;}
+.resp-select{
+  flex:1;min-width:0;max-width:180px;
+  font-family:'Instrument Sans',sans-serif;font-size:.78rem;font-weight:500;
+  color:var(--ink);background:var(--surface2);
+  border:1px solid var(--border);border-radius:8px;padding:4px 8px;
+  cursor:pointer;outline:none;transition:border-color .15s;
+}
+.resp-select:focus{border-color:var(--gold);}
+.resp-confirm-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--gold);color:white;
+  border:none;cursor:pointer;transition:filter .15s;flex-shrink:0;
+}
+.resp-confirm-btn:hover{filter:brightness(.9);}
+.resp-confirm-btn svg{width:12px;height:12px;}
+
+/* ─── PEOPLE LIST ────────────────────────────────────────────── */
+.people-list{padding:10px;min-height:64px;display:flex;flex-direction:column;gap:4px;}
+.drop-hint{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:10px;border:1.5px dashed var(--gold-bdr);border-radius:10px;
+  color:var(--gold);font-size:.75rem;font-weight:500;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+}
+.drop-hint svg{width:12px;height:12px;}
+.groups-grid.is-dragging .drop-hint{opacity:1;}
+
+/* ─── CHIP ───────────────────────────────────────────────────── */
+.chip{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 11px;background:var(--surface2);
+  border:1px solid var(--border2);border-radius:10px;
+  cursor:grab;user-select:none;
+  transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;
+  animation:chipIn .22s ease both;
+}
+@keyframes chipIn{from{opacity:0;transform:translateX(-5px);}to{opacity:1;transform:translateX(0);}}
+.chip:hover{background:var(--bg3);border-color:var(--border);transform:translateX(3px);box-shadow:var(--shadow-sm);}
+.chip:active{cursor:grabbing;}
+.chip.is-dragging{opacity:.25;transform:scale(.95);}
+.chip.couple{border-left:3px solid var(--blue);}
+.chip.triple{border-left:3px solid var(--purple);}
+.chip.is-responsible{border-color:var(--gold-bdr);background:var(--gold-bg);}
+.chip.is-responsible .chip-name{color:var(--gold);font-weight:600;}
+.chip-av{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;flex-shrink:0;}
+.chip-name{flex:1;font-size:.85rem;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .25s;}
+.chip-badge{font-size:.67rem;font-weight:600;padding:2px 7px;border-radius:100px;background:rgba(26,23,20,.07);color:var(--ink2);flex-shrink:0;}
+[data-theme="dark"] .chip-badge{background:rgba(255,255,255,.08);}
+.chip-drag{color:var(--ink3);opacity:0;transition:opacity .12s;flex-shrink:0;}
+.chip-drag svg{width:12px;height:12px;}
+.chip:hover .chip-drag{opacity:1;}
+
+/* ─── MODAL OVERLAY ──────────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--modal-bg);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+
+.modal{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;box-shadow:var(--shadow-lg);
+  width:100%;max-width:520px;max-height:90vh;
+  display:flex;flex-direction:column;
+  transform:translateY(16px) scale(.97);
+  transition:transform .25s cubic-bezier(.34,1.4,.64,1);
+  overflow:hidden;
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);}
+
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px 16px;border-bottom:1px solid var(--border2);
+  flex-shrink:0;
+}
+.modal-title{
+  font-family:'Neocat','Neocat-Regular','Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:normal;color:var(--ink);
+}
+.modal-close{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  cursor:pointer;color:var(--ink2);transition:all .15s;
+}
+.modal-close:hover{color:var(--ink);border-color:var(--ink3);}
+.modal-close svg{width:14px;height:14px;}
+
+.modal-body{flex:1;overflow-y:auto;padding:16px 20px;}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-track{background:transparent;}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* Add person form */
+.add-form{
+  display:flex;gap:8px;margin-bottom:20px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:10px;
+}
+.add-input{
+  flex:1;min-width:0;
+  font-family:'Instrument Sans',sans-serif;font-size:.88rem;
+  color:var(--ink);background:transparent;border:none;outline:none;
+  padding:0 4px;
+}
+.add-input::placeholder{color:var(--ink3);}
+.weight-select{
+  font-family:'Instrument Sans',sans-serif;font-size:.8rem;
+  color:var(--ink2);background:var(--bg2);border:1px solid var(--border);
+  border-radius:7px;padding:4px 6px;cursor:pointer;outline:none;flex-shrink:0;
+  transition:border-color .15s;
+}
+.weight-select:focus{border-color:var(--gold);}
+.add-resp-check{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--ink2);flex-shrink:0;cursor:pointer;}
+.add-resp-check input{accent-color:var(--gold);cursor:pointer;}
+.add-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--gold);color:white;border:none;
+  cursor:pointer;transition:filter .15s;flex-shrink:0;
+}
+.add-btn:hover{filter:brightness(.9);}
+.add-btn svg{width:14px;height:14px;}
+
+/* Section label */
+.section-label{
+  font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:10px;
+}
+
+/* Person rows */
+.person-row{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:10px;
+  transition:background .15s;
+  animation:chipIn .2s ease both;
+}
+.person-row:hover{background:var(--surface2);}
+.person-row-av{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;flex-shrink:0;
+}
+.person-row-name{
+  flex:1;font-size:.86rem;font-weight:500;color:var(--ink);
+}
+.person-row-name.editing{
+  background:var(--surface2);border:1px solid var(--gold);
+  border-radius:7px;padding:3px 8px;outline:none;
+  font-family:'Instrument Sans',sans-serif;
+}
+.person-row-weight{
+  font-size:.7rem;color:var(--ink3);
+  background:var(--bg2);padding:2px 7px;border-radius:100px;flex-shrink:0;
+}
+.person-row-weight.resp{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bdr);}
+.row-actions{display:flex;gap:4px;flex-shrink:0;}
+.row-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;
+  background:transparent;border:1px solid transparent;
+  cursor:pointer;color:var(--ink3);transition:all .15s;
+}
+.row-btn:hover{background:var(--surface2);border-color:var(--border);color:var(--ink2);}
+.row-btn.danger:hover{background:var(--red-bg);border-color:rgba(184,50,50,.2);color:var(--red);}
+.row-btn.gold-btn:hover{background:var(--gold-bg);border-color:var(--gold-bdr);color:var(--gold);}
+.row-btn svg{width:12px;height:12px;}
+
+.modal-foot{
+  padding:12px 20px 16px;border-top:1px solid var(--border2);
+  display:flex;justify-content:flex-end;gap:8px;flex-shrink:0;
+}
+
+/* ─── TOAST ──────────────────────────────────────────────────── */
+#toast{
+  position:fixed;bottom:26px;left:50%;
+  transform:translateX(-50%) translateY(14px);
+  background:var(--ink);color:var(--bg);
+  padding:9px 18px;border-radius:100px;
+  font-size:.8rem;font-weight:500;
+  opacity:0;transition:all .22s cubic-bezier(.34,1.4,.64,1);
+  z-index:9999;pointer-events:none;white-space:nowrap;
+  box-shadow:var(--shadow-lg);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:760px){
+  .site-header{padding-top:20px;}
+  .stats-strip{flex-direction:column;border-radius:14px;width:100%;max-width:260px;}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border2);}
+  .stat-item:last-child{border-bottom:none;}
+  .groups-grid{grid-template-columns:1fr;}
+  .controls{gap:8px;}
+  .btn{padding:10px 16px;font-size:.83rem;}
+  .add-resp-check{display:none;}
+}
+@media(max-width:420px){
+  .wrap{padding:0 14px;}
+  h1{font-size:2.8rem;}
+  .topbar{gap:6px;}
+  .icon-btn span{display:none;}
+}
+
+.spin{animation:spin .55s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="wrap">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="icon-btn" onclick="abrirModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span>Gestionar personas</span>
+  </button>
+  <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">
+    <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    <span id="themeLabel">Modo oscuro</span>
+  </button>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-badge">
+    <!-- Cruz cristiana SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="2" x2="12" y2="22"/>
+      <line x1="4" y1="8" x2="20" y2="8"/>
+    </svg>
+    Comunidad
+  </div>
+  <h1>Generador<br>de <em>Grupos</em></h1>
+  <p class="header-sub">Genera grupos automáticamente y ajusta arrastrando personas entre ellos</p>
+</header>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </span>
+    Total: <strong id="statTotal">0</strong>&nbsp;pers.
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </span>
+    Grupos: <strong id="statGroups">0</strong>
+  </div>
+  <div class="stat-item">
+    <span class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </span>
+    Rango <strong>4–6</strong>&nbsp;pers.
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Matrimonio (×2)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Seminaristas (×3)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Responsable</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--border);border:1px solid var(--border)"></div>Individual</div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-regen" id="btnRegen" onclick="regenerar()">
+    <svg id="regenIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+      <path d="M21 3v5h-5"/>
+      <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+      <path d="M3 21v-5h5"/>
+    </svg>
+    Regenerar grupos
+  </button>
+  <button class="btn btn-undo" onclick="resetearCambios()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>
+    </svg>
+    Deshacer cambios
+  </button>
+  <button class="btn btn-shuffle" onclick="mezclarOrden()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 18h1.4c.5 0 .9-.2 1.2-.6l8.8-10.8c.3-.4.7-.6 1.2-.6H20"/>
+      <path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c.5 0 .9.2 1.2.6l.8 1"/>
+      <path d="m18 18 4-4-4-4"/>
+      <path d="M12.2 12.2l1 1.2c.3.4.7.6 1.2.6H20"/>
+    </svg>
+    Mezclar orden
+  </button>
+</div>
+
+<!-- GROUPS -->
+<div class="groups-grid" id="groupsGrid"></div>
+
+</div><!-- wrap -->
+</div><!-- page -->
+
+<!-- ─── MODAL GESTIONAR PERSONAS ─────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Gestionar personas</div>
+      <button class="modal-close" onclick="cerrarModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Add form -->
+      <div class="add-form">
+        <input class="add-input" id="addName" type="text" placeholder="Nombre (ej: Ana, Juan y María…)" maxlength="40" onkeydown="if(event.key==='Enter')addPersona()">
+        <select class="weight-select" id="addWeight">
+          <option value="1">×1</option>
+          <option value="2">×2</option>
+          <option value="3">×3</option>
+        </select>
+        <label class="add-resp-check" title="Marcar como responsable preferente">
+          <input type="checkbox" id="addIsResp"> Resp.
+        </label>
+        <button class="add-btn" onclick="addPersona()" title="Añadir persona">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+
+      <div class="section-label">Lista de personas</div>
+      <div id="personasList"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-undo" onclick="cerrarModal()">Cerrar</button>
+      <button class="btn btn-regen" onclick="cerrarModal();regenerar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+        Guardar y regenerar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─── DEFAULT DATA ───────────────────────────────────────────────
+const DEFAULT_UNIDADES = [
+  {nombre:"Danel",peso:1},
+  {nombre:"Maider",peso:1},
+  {nombre:"Debora",peso:1},
+  {nombre:"Pablo e Isabel",peso:2},
+  {nombre:"Jose y Agnieszka",peso:2},
+  {nombre:"Alvaro e Iciar",peso:2},
+  {nombre:"Andoni",peso:1},
+  {nombre:"Danilo",peso:1},
+  {nombre:"Elias",peso:1},
+  {nombre:"Encarna",peso:1},
+  {nombre:"Ignacio",peso:1},
+  {nombre:"Iker y Raquel",peso:2},
+  {nombre:"Itziar",peso:1},
+  {nombre:"Julia",peso:1},
+  {nombre:"Leire",peso:1},
+  {nombre:"Loli",peso:1},
+  {nombre:"Luisa",peso:1},
+  {nombre:"Monica",peso:1},
+  {nombre:"Airton",peso:1},
+  {nombre:"Walter",peso:1},
+  {nombre:"Seminaristas",peso:3},
+];
+const DEFAULT_RESP = new Set([
+  "Danel","Pablo e Isabel","Debora","Leire","Maider","Ignacio","Iker y Raquel"
+]);
+
+const MIN_G=4, MAX_G=6;
+
+// Live state – can be edited via modal
+let UNIDADES = DEFAULT_UNIDADES.map(u=>({...u}));
+let RESPONSABLES_PREF = new Set(DEFAULT_RESP);
+
+// Avatar palettes [bg,fg] light / dark
+const PALS_L=[['#FDE8C8','#7A3A08'],['#D4EFE2','#0F4228'],['#DBEAFE','#1A3D9E'],['#EDE9FE','#4C1580'],['#FEE2E2','#7A1A1A'],['#FEF9C3','#6B4D08'],['#F0FDF4','#0D3D20'],['#FDF4FF','#5A0A6A'],['#F0F9FF','#083150'],['#FFF7ED','#5C1F08']];
+const PALS_D=[['#4A2A08','#FBBF6A'],['#0A2E1C','#52C48A'],['#0F1E5A','#7EB4FA'],['#2A0A4E','#C084FC'],['#3A0A0A','#F87171'],['#3A2A04','#F0C040'],['#0A2A14','#6EE7A0'],['#2A0A30','#E090F8'],['#051828','#7CC8F0'],['#2E1004','#F09060']];
+
+function palette(name){
+  let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))&0xFFFF;
+  const dk=document.documentElement.getAttribute('data-theme')==='dark';
+  return (dk?PALS_D:PALS_L)[h%PALS_L.length];
+}
+function initials(name){
+  return name.split(/[\s,ye&\/]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+
+// ─── ALGORITHM ─────────────────────────────────────────────────
+function generarGrupos(){
+  for(let t=0;t<3000;t++){
+    const shuffled=[...UNIDADES].sort(()=>Math.random()-.5);
+    const grupos=[]; let cur={items:[],peso:0};
+    for(const u of shuffled){
+      if(cur.peso+u.peso<=MAX_G){cur.items.push({...u});cur.peso+=u.peso;}
+      else{if(cur.items.length)grupos.push(cur);cur={items:[{...u}],peso:u.peso};}
+    }
+    if(cur.items.length)grupos.push(cur);
+    if(grupos.every(g=>g.peso>=MIN_G&&g.peso<=MAX_G))return grupos;
+  }
+  return null;
+}
+
+function asignarResponsable(grupo){
+  // Sort: responsable preferente primero
+  const pref=grupo.items.find(p=>RESPONSABLES_PREF.has(p.nombre));
+  return pref ? pref.nombre : grupo.items[Math.floor(Math.random()*grupo.items.length)].nombre;
+}
+
+function sortGrupo(grupo){
+  // Responsable primero, luego el resto
+  const resp=grupo.responsable;
+  grupo.items.sort((a,b)=>{
+    if(a.nombre===resp)return -1;
+    if(b.nombre===resp)return 1;
+    return 0;
+  });
+}
+
+// ─── STATE ─────────────────────────────────────────────────────
+let state=[];
+let snapshot=[];
+let dragging=null;
+
+// ─── RENDER GROUPS ─────────────────────────────────────────────
+function render(){
+  const grid=document.getElementById('groupsGrid');
+  grid.innerHTML='';
+  state.forEach((grupo,gi)=>{
+    sortGrupo(grupo);
+    const peso=grupo.items.reduce((s,p)=>s+p.peso,0);
+    const valid=peso>=MIN_G&&peso<=MAX_G;
+    const pillCls=peso===0?'empty':valid?'ok':'warn';
+    const allNames=grupo.items.map(p=>p.nombre);
+
+    const respHtml=grupo.editingResp
+      ?`<div class="resp-display">
+          <select class="resp-select" id="resp-sel-${gi}">${allNames.map(n=>`<option value="${n}"${n===grupo.responsable?' selected':''}>${n}</option>`).join('')}</select>
+          <button class="resp-confirm-btn" onclick="confirmResp(${gi})">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>`
+      :`<div class="resp-display">
+          <span class="resp-name" onclick="editResp(${gi})">${grupo.responsable}</span>
+          <button class="resp-edit-btn" onclick="editResp(${gi})" title="Cambiar responsable">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>`;
+
+    const card=document.createElement('div');
+    card.className='group-card'+(valid?'':' warn-card');
+    card.dataset.gi=gi;
+    card.style.animationDelay=`${gi*0.07}s`;
+    card.innerHTML=`
+      <div class="card-strip"></div>
+      <div class="card-head">
+        <div class="card-head-top">
+          <div class="card-title"><div class="card-num">${gi+1}</div>Grupo ${gi+1}</div>
+          <div class="card-pill ${pillCls}">${peso} pers.</div>
+        </div>
+        <div class="responsible-row">
+          <div class="resp-label">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Resp.
+          </div>
+          ${respHtml}
+        </div>
+      </div>
+      <div class="people-list" id="plist-${gi}"></div>
+    `;
+
+    card.addEventListener('dragover',e=>{e.preventDefault();card.classList.add('drag-over');});
+    card.addEventListener('dragleave',e=>{if(!card.contains(e.relatedTarget))card.classList.remove('drag-over');});
+    card.addEventListener('drop',e=>{
+      e.preventDefault();card.classList.remove('drag-over');
+      if(dragging!==null&&dragging.fromGi!==gi)moverPersona(dragging.fromGi,gi,dragging.nombre);
+    });
+    grid.appendChild(card);
+
+    const list=card.querySelector(`#plist-${gi}`);
+    grupo.items.forEach((p,pi)=>list.appendChild(makeChip(p,gi,pi,grupo.responsable)));
+
+    const hint=document.createElement('div');
+    hint.className='drop-hint';
+    hint.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg> Suelta aquí`;
+    list.appendChild(hint);
+  });
+  updateStats();
+}
+
+function makeChip(p,gi,pi,responsable){
+  const chip=document.createElement('div');
+  const typeClass=p.peso===2?'couple':p.peso>=3?'triple':'';
+  const isResp=p.nombre===responsable;
+  chip.className=`chip ${typeClass}${isResp?' is-responsible':''}`;
+  chip.draggable=true;
+  chip.style.animationDelay=`${pi*0.04}s`;
+  const [bg,fg]=palette(p.nombre);
+  const ini=initials(p.nombre);
+  const badge=p.peso>1?`<span class="chip-badge">×${p.peso}</span>`:'';
+  chip.innerHTML=`
+    <div class="chip-av" style="background:${bg};color:${fg}">${ini}</div>
+    <span class="chip-name">${p.nombre}</span>
+    ${badge}
+    <span class="chip-drag"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="7" r="1" fill="currentColor"/><circle cx="15" cy="7" r="1" fill="currentColor"/>
+      <circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="15" cy="12" r="1" fill="currentColor"/>
+      <circle cx="9" cy="17" r="1" fill="currentColor"/><circle cx="15" cy="17" r="1" fill="currentColor"/>
+    </svg></span>`;
+
+  chip.addEventListener('dragstart',e=>{
+    dragging={nombre:p.nombre,fromGi:gi};
+    chip.classList.add('is-dragging');
+    document.getElementById('groupsGrid').classList.add('is-dragging');
+    e.dataTransfer.effectAllowed='move';
+  });
+  chip.addEventListener('dragend',()=>{
+    chip.classList.remove('is-dragging');
+    document.getElementById('groupsGrid').classList.remove('is-dragging');
+    document.querySelectorAll('.group-card').forEach(c=>c.classList.remove('drag-over'));
+    dragging=null;
+  });
+  // Touch
+  let ts=null;
+  chip.addEventListener('touchstart',e=>{ts={gi,nombre:p.nombre};},{passive:true});
+  chip.addEventListener('touchend',e=>{
+    if(!ts)return;
+    const t=e.changedTouches[0];
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    const tc=el&&el.closest('.group-card');
+    if(tc){const toGi=parseInt(tc.dataset.gi);if(toGi!==gi)moverPersona(gi,toGi,p.nombre);}
+    ts=null;
+  });
+  return chip;
+}
+
+// ─── RESPONSIBLE ───────────────────────────────────────────────
+function editResp(gi){state[gi].editingResp=true;render();}
+function confirmResp(gi){
+  const sel=document.getElementById(`resp-sel-${gi}`);
+  if(sel){state[gi].responsable=sel.value;state[gi].editingResp=false;render();toast(`✓ Responsable: ${sel.value}`);}
+}
+
+// ─── MOVE ──────────────────────────────────────────────────────
+function moverPersona(fromGi,toGi,nombre){
+  const from=state[fromGi],to=state[toGi];
+  const idx=from.items.findIndex(p=>p.nombre===nombre);
+  if(idx===-1)return;
+  const persona=from.items.splice(idx,1)[0];
+  to.items.push(persona);
+  if(from.responsable===nombre&&from.items.length)from.responsable=asignarResponsable(from);
+  if(from.items.length===0)state.splice(fromGi,1);
+  render();
+  const newG=state.find(g=>g.items.some(p=>p.nombre===nombre));
+  const nw=newG?newG.items.reduce((s,p)=>s+p.peso,0):0;
+  if(nw>MAX_G)toast(`⚠️  Grupo supera el máximo de ${MAX_G}`);
+  else if(nw<MIN_G)toast(`⚠️  Grupo por debajo del mínimo de ${MIN_G}`);
+  else toast(`✓  ${nombre} movido`);
+}
+
+// ─── MAIN ACTIONS ───────────────────────────────────────────────
+function regenerar(){
+  const icon=document.getElementById('regenIcon');
+  icon.classList.add('spin');
+  setTimeout(()=>{
+    const grupos=generarGrupos();
+    icon.classList.remove('spin');
+    if(!grupos){toast('No se encontró distribución válida');return;}
+    state=grupos.map(g=>{
+      const resp=asignarResponsable(g);
+      return{items:g.items.map(p=>({...p})),responsable:resp,editingResp:false};
+    });
+    snapshot=JSON.parse(JSON.stringify(state));
+    render();
+    toast(`✓  ${state.length} grupos generados`);
+  },120);
+}
+
+function resetearCambios(){
+  if(!snapshot.length){toast('Nada que deshacer');return;}
+  state=JSON.parse(JSON.stringify(snapshot));
+  render();toast('↺  Cambios deshachos');
+}
+
+function mezclarOrden(){
+  state.forEach(g=>{
+    for(let i=g.items.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [g.items[i],g.items[j]]=[g.items[j],g.items[i]];
+    }
+  });
+  render();toast('↕  Orden mezclado');
+}
+
+function updateStats(){
+  document.getElementById('statTotal').textContent=UNIDADES.reduce((s,u)=>s+u.peso,0);
+  document.getElementById('statGroups').textContent=state.length;
+}
+
+// ─── THEME ─────────────────────────────────────────────────────
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  const icon=document.getElementById('themeIcon');
+  const label=document.getElementById('themeLabel');
+  if(!isDark){
+    icon.innerHTML=`<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    label.textContent='Modo claro';
+  }else{
+    icon.innerHTML=`<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>`;
+    label.textContent='Modo oscuro';
+  }
+  render();
+}
+
+// ─── MODAL ─────────────────────────────────────────────────────
+function abrirModal(){
+  renderModal();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function cerrarModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function closeOnOverlay(e){if(e.target===document.getElementById('modalOverlay'))cerrarModal();}
+
+function renderModal(){
+  const list=document.getElementById('personasList');
+  list.innerHTML='';
+  UNIDADES.forEach((u,i)=>{
+    const isResp=RESPONSABLES_PREF.has(u.nombre);
+    const [bg,fg]=palette(u.nombre);
+    const row=document.createElement('div');
+    row.className='person-row';
+    row.style.animationDelay=`${i*0.025}s`;
+    row.innerHTML=`
+      <div class="person-row-av" style="background:${bg};color:${fg}">${initials(u.nombre)}</div>
+      <span class="person-row-name" id="pname-${i}">${u.nombre}</span>
+      <span class="person-row-weight${isResp?' resp':''}" title="${isResp?'Responsable preferente':'Peso'}">
+        ${isResp?'★ Resp.':u.peso>1?`×${u.peso}`:''}
+      </span>
+      <div class="row-actions">
+        <button class="row-btn gold-btn" onclick="toggleResp(${i})" title="${isResp?'Quitar como responsable':'Marcar como responsable'}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${isResp?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </button>
+        <button class="row-btn" onclick="editarPersona(${i})" title="Renombrar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="row-btn danger" onclick="eliminarPersona(${i})" title="Eliminar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        </button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function addPersona(){
+  const nameEl=document.getElementById('addName');
+  const name=nameEl.value.trim();
+  if(!name){nameEl.focus();return;}
+  const peso=parseInt(document.getElementById('addWeight').value)||1;
+  const isResp=document.getElementById('addIsResp').checked;
+  if(UNIDADES.some(u=>u.nombre.toLowerCase()===name.toLowerCase())){
+    toast('⚠️  Ese nombre ya existe'); return;
+  }
+  UNIDADES.push({nombre:name,peso});
+  if(isResp)RESPONSABLES_PREF.add(name);
+  nameEl.value='';
+  document.getElementById('addIsResp').checked=false;
+  renderModal();
+  toast(`✓  ${name} añadido`);
+}
+
+function eliminarPersona(i){
+  const u=UNIDADES[i];
+  RESPONSABLES_PREF.delete(u.nombre);
+  UNIDADES.splice(i,1);
+  renderModal();
+  toast(`✓  ${u.nombre} eliminado`);
+}
+
+function editarPersona(i){
+  const el=document.getElementById(`pname-${i}`);
+  if(!el)return;
+  const oldName=UNIDADES[i].nombre;
+  el.contentEditable='true';
+  el.classList.add('editing');
+  el.focus();
+  // select all
+  const range=document.createRange();
+  range.selectNodeContents(el);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+
+  const done=()=>{
+    el.contentEditable='false';
+    el.classList.remove('editing');
+    const newName=el.textContent.trim();
+    if(newName&&newName!==oldName){
+      if(RESPONSABLES_PREF.has(oldName)){RESPONSABLES_PREF.delete(oldName);RESPONSABLES_PREF.add(newName);}
+      UNIDADES[i].nombre=newName;
+      renderModal();
+      toast(`✓  Renombrado a ${newName}`);
+    }
+  };
+  el.addEventListener('blur',done,{once:true});
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}},{once:true});
+}
+
+function toggleResp(i){
+  const name=UNIDADES[i].nombre;
+  if(RESPONSABLES_PREF.has(name))RESPONSABLES_PREF.delete(name);
+  else RESPONSABLES_PREF.add(name);
+  renderModal();
+  toast(RESPONSABLES_PREF.has(name)?`★  ${name} es responsable`:`○  ${name} ya no es responsable`);
+}
+
+// ─── TOAST ─────────────────────────────────────────────────────
+let toastT;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('show'),2600);
+}
+
+// ─── INIT ───────────────────────────────────────────────────────
+regenerar();
+</script>
+</body>
+</html>

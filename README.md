@@ -16,7 +16,7 @@ Herramienta web para generar grupos aleatorios respetando matrimonios y unidades
 
 Accede directamente desde el navegador:
 ```
-https://danelitos.github.io/grupos
+https://Danelitos.github.io/GruposComunidad
 ```
 
 No requiere instalación ni servidor.
